@@ -1,13 +1,11 @@
 <?php
 require dirname(__FILE__) . "/../vendor/autoload.php";
 require dirname(__FILE__) . "/../helpers/myHelpers.php";
+require dirname(__FILE__) . "/../config/alumnes.php";
+
 loadWhoops();
 
-$grup="grup b";
-$aula="221";
-$centre="CIP FP Batoi";
-$descripcio="Desarollo aplicaciones web";
-$webCentre="http://www.cipfpbatoi.es/";
+$arrayAlumnos=explode(":", $alumnes);
 
 ?>
 <!doctype html>
@@ -58,11 +56,30 @@ $webCentre="http://www.cipfpbatoi.es/";
   </header>
 
   <main role="main" class="inner cover">
-    <h1 class="cover-heading"><?= ucfirst($grup)." ". ucfirst($aula)?></h1>
-    <p class="lead"><?= ucParagraph($descripcio)?></p>
-    <p class="lead">
-      <a href=<? echo($webCentre)?> class="btn btn-lg btn-secondary"><? echo($centre) ?></a>
-    </p>
+
+  <table>
+
+     <tr><th>Nombre</th><th>Grupo</th></tr>
+         <?php  
+         
+         foreach($arrayAlumnos as $key ){
+
+         $array2=explode(';', $key);
+
+
+          echo paintLine($array2);
+
+         }
+         
+         
+         ?>
+      
+     
+  
+  </table>
+  
+  
+
   </main>
 
   <footer class="mastfoot mt-auto">

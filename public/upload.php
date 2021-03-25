@@ -1,13 +1,37 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 require dirname(__FILE__) . "/../vendor/autoload.php";
 require dirname(__FILE__) . "/../helpers/myHelpers.php";
+require dirname(__FILE__) . "/../config/alumnes.php";
+
 loadWhoops();
 
-$grup="grup b";
-$aula="221";
-$centre="CIP FP Batoi";
-$descripcio="Desarollo aplicaciones web";
-$webCentre="http://www.cipfpbatoi.es/";
+$arrayAlumnos=explode(":", $alumnes);
+
+
+
+if ($_SERVER["REQUEST_METHOD"] == "post") {  
+  $dadesAlumne=explode(';', $arrayAlumnos[$alumne]);
+
+
+     if ($_POST['alumne']==$dadesAlumne[0] && strtolower($_POST['pueblo'])==strtolower($dadesAlumne[1])) {
+        header("Location: index.php");
+
+        if ($_FILES['fichero']['type']=='fichero/jpg') {
+          echo '<p>Archivo enviado</p>';
+          move_uploaded_file($_FILES['fichero']['tmp_name'],'./fotos/'.$alumne.'jpg' );
+           # code...
+         }else{
+            echo '<p>Error al no subir el archivo JPG</p>';
+         }
+        
+
+     }else{
+        echo '<p>Error en el usuario y  la ciudad</p>';
+      }
+   }
 
 ?>
 <!doctype html>
@@ -58,11 +82,44 @@ $webCentre="http://www.cipfpbatoi.es/";
   </header>
 
   <main role="main" class="inner cover">
-    <h1 class="cover-heading"><?= ucfirst($grup)." ". ucfirst($aula)?></h1>
-    <p class="lead"><?= ucParagraph($descripcio)?></p>
-    <p class="lead">
-      <a href=<? echo($webCentre)?> class="btn btn-lg btn-secondary"><? echo($centre) ?></a>
-    </p>
+
+  <form action="<?= $_SERVER['PHP_SELF'];?>" method="post" enctype="multipart/form-data">
+
+<select name="alumne" id="">
+<?php  
+         
+         foreach($arrayAlumnos as $key=>$alumne ){
+
+         $array2=explode(';', $alumne);
+         
+
+
+          echo '<option value='.$key.'>'.$array2[0];
+
+         }
+         
+         ?>
+</select>
+<br>
+<label for="pueblo">Ciudad</label>
+<input type="text" name="pueblo">
+<br>
+<label for="fichero">Imagen del alumno</label>
+
+<input type="file" name="fichero">
+<br>
+
+
+
+<input type="submit" value="Enviar">
+<input type="reset" value="Reset">
+
+
+
+  </form>
+  
+  
+
   </main>
 
   <footer class="mastfoot mt-auto">
